@@ -1,0 +1,1 @@
+TEMPLATE_FOLDER = "/home/rupax/myprojects/templateGen/templates"
