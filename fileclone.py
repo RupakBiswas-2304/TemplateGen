@@ -19,7 +19,7 @@ class FileClone:
 
     def all_templates(self):
         templates = os.listdir(self.TEMPLATE_FOLDER)
-        templates = [x[:-4] for x in templates]
+        templates = [x[:-9] for x in templates]
         return templates
 
     def addTemplate(self, template, filename):

@@ -17,7 +17,8 @@ def existanceCheck(path: str, err : int):
     ERROR_MSG = [
         "Templace File not found",
         "Template Directory not found",
-        "Config File not found"
+        "Config File not found",
+        "Directory not found"
     ]
 
     if not os.path.exists(path):

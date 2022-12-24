@@ -40,6 +40,42 @@ class DirClone:
         return 
 
 
-    def addDirTemplate(self):
+    def addDirTemplate(self, dirloc: str, template_name: str):
+        # Reverse of CreateDir
+        # Open the directory, explor all subdirectories and files
+        # listout all the directies
+        # Create template from all the files
+        # Create config.json
+        # Create replace.json
+
+        existanceCheck(dirloc, 3)
+        if os.path.exists(os.path.join(self.TEMPLATE_FOLDER, template_name + ".template")):
+            print("Template already exists")
+            exit(1)
         
-        pass
+        config = {
+            "dir" : [dirloc],
+            "files" : []
+        }
+        path = os.path.join(self.TEMPLATE_FOLDER, template_name + ".template")
+        os.mkdir(path)
+        
+        fileGen = FileClone(path)
+        
+        for root, dirs, files in os.walk(dirloc):
+            for d in dirs:
+                config["dir"].append(os.path.join(root, d))
+            for f in files:
+                fileGen.addTemplate(f.split('.')[0], os.path.join(root, f))
+                config["files"].append({
+                    "template" : f.split('.')[0],
+                    "location" : os.path.join(root, f)
+                })
+        
+        # saving config.json
+        config_file_path = os.path.join(path, "config.json")
+        with open(config_file_path, "w") as f:
+            json.dump(config, f, indent=4)
+        return
+            
+                

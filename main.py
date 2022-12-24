@@ -16,6 +16,9 @@ if __name__ == '__main__':
     parser.add_argument('-l', '--list',
                         action='store_true', required = False)
     parser.add_argument('-d', '--dtemplate', required= False)
+    parser.add_argument('-v', '--version', required= False)
+    parser.add_argument('-ad', '--adddir', required= False)
+
 
     args = parser.parse_args()
     # print(args.filename, args.template, args.add, args.list)
@@ -36,5 +39,11 @@ if __name__ == '__main__':
         template = DirClone(TEMPLATE_FOLDER)
         template.createDir(args.dtemplate)
         exit(1)
+    if (args.adddir != None) and (args.filename != None) :
+        template = DirClone(TEMPLATE_FOLDER)
+        template.addDirTemplate(args.adddir, args.filename)
+        exit(1)
+
+    
     print("Uses `--help` for more information")
     

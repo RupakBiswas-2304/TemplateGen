@@ -21,6 +21,17 @@ templategen -a py1 test.py
 ```
 - The above command create a template named `py1.template` in your template folder with `test.py` content.
 
+- Saving a directory as a template ->
+```
+templategen -ad directory_name
+```
+- This will save that whole directory as a template. If you want to add some dynamic naming, you can use `{{variable name}}` in `config.json` file, also create a `replace.json` file with the given format in demo template folder.
+
+- For using a template as a directory ->
+```
+templategen -d directory_name
+```
+
 - Use `--help` for help.
 ```bash
 templategen --help
