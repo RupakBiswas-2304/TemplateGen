@@ -1,80 +1,40 @@
 #!/usr/bin/env python3
-
-import os
-import sys
+import argparse
 from config import TEMPLATE_FOLDER
+from dirclone import DirClone
+from fileclone import FileClone
 
-def createFile(template, filename):
-    template = template + ".template"
-    path = os.path.join( TEMPLATE_FOLDER, template)
-    if not os.path.exists(path):
-        print("Template not found")
-        exit(1)
-    with open(path, "r") as f:
-        content = f.read()
-    with open(filename, "w") as f:
-        f.write(content)
-    print("Done")
-    return
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        description='Template generator V1.0',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter, 
+    )
 
-def all_templates():
-    templates = os.listdir(TEMPLATE_FOLDER)
-    templates = [x[:-4] for x in templates]
-    return templates
+    parser.add_argument('-f','--filename', required = False)       # positional argument
+    parser.add_argument('-t', '--template', required = False)      # option that takes a value
+    parser.add_argument('-a', '--add', required = False)
+    parser.add_argument('-l', '--list',
+                        action='store_true', required = False)
+    parser.add_argument('-d', '--dtemplate', required= False)
 
-def addTemplate(template, filename):
-    template = template + ".template"
-    path = os.path.join( TEMPLATE_FOLDER, template)
-    if os.path.exists(path):
-        print("Template already exists")
-        exit(1)
-    with open(filename, "r") as f:
-        content = f.read()
-    with open(path, "w") as f:
-        f.write(content)
-
-def help():
-    print("Usage: main.py [filename] [-t template] [-a template] [-l]")
-    print("Options:")
-    print("\t-t template\tUse template")
-    print("\t-a template\tAdd template")
-    print("\t-l\t\tList all templates")
-    print("If no options are given, the default template is used")
-    return
-    
-
-if __name__ == "__main__":
-    n = len(sys.argv)
-    template = "basic"
-    filename = "main.cpp"
-
-    if n == 4:
-        if sys.argv[1] == "-t":
-            template = sys.argv[2]
-            filename = sys.argv[3]
-            createFile(template, filename)
-        elif sys.argv[2] == "-t":
-            filename = sys.argv[1]
-            template = sys.argv[3]
-            createFile(template, filename)
-        elif sys.argv[1] == "-a":
-            template = sys.argv[2]
-            filename = sys.argv[3]
-            addTemplate(template, filename)
-        elif sys.argv[2] == "-a":
-            filename = sys.argv[1]
-            template = sys.argv[3]
-            addTemplate(template, filename)
-        else:
-            filename = sys.argv[1]
-    elif n > 4:
-        print("Too many arguments")
-        exit(1)
-    elif n == 2 and sys.argv[1] == "-l":
-        templates = all_templates()
-        print("All templates:")
+    args = parser.parse_args()
+    # print(args.filename, args.template, args.add, args.list)
+    if args.list:
+        templates = FileClone(TEMPLATE_FOLDER).all_templates()
         for template in templates:
             print(template)
-    elif n == 2 and (sys.argv[1] == "--help" or sys.argv[1] == "-h"):
-        help()
-    exit(0)
+        exit(1)
+    if (args.add != None) and (args.filename != None):
+        template = FileClone(TEMPLATE_FOLDER)
+        template.addTemplate(args.add, args.filename)
+        exit(1)
+    if args.template :
+        template = FileClone(TEMPLATE_FOLDER)
+        template.createFile( args.template , args.filename )
+        exit(1)
+    if args.dtemplate :
+        template = DirClone(TEMPLATE_FOLDER)
+        template.createDir(args.dtemplate)
+        exit(1)
+    print("Uses `--help` for more information")
+    

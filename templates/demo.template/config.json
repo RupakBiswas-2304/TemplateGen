@@ -1,0 +1,32 @@
+{
+    "dir" : [
+        "{{PROJECT_NAME}}",
+        "{{PROJECT_NAME}}/{{PROJECT_NAME}}"
+    ],
+    "files" : [
+        {
+            "location" : "{{PROJECT_NAME}}/{{PROJECT_NAME}}/__init__.py",
+            "template" : "__init__"
+        },
+        {
+            "location" : "{{PROJECT_NAME}}/{{PROJECT_NAME}}/settings.py",
+            "template" : "settings"
+        },
+        {
+            "location" : "{{PROJECT_NAME}}/{{PROJECT_NAME}}/urls.py",
+            "template" : "urls"
+        },
+        {
+            "location" : "{{PROJECT_NAME}}/{{PROJECT_NAME}}/wsgi.py",
+            "template" : "wsgi"
+        },
+        {
+            "location" : "{{PROJECT_NAME}}/{{PROJECT_NAME}}/asgi.py",
+            "template" : "asgi"
+        },
+        {
+            "location" : "{{PROJECT_NAME}}/manage.py",
+            "template" : "manage"
+        }
+    ]
+}
